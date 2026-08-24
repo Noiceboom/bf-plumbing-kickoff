@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benjamin Franklin Plumbing — Kickoff Priorities</title>
+<meta name="description" content="Confirm and rank the services and locations we build first.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap">
+<style>
+@font-face{font-family:"OpenSansVar";src:url("fonts/OpenSans-VariableFont.woff2") format("woff2");font-weight:300 800;font-display:swap}
+@font-face{font-family:"OSCondensed";src:url("fonts/OpenSans_Condensed-ExtraBold.woff2") format("woff2");font-weight:800;font-display:swap}
+@font-face{font-family:"Voltage";src:url("fonts/Voltage.woff2") format("woff2");font-weight:400;font-display:swap}
+
+:root{
+  --orange:#e55933; --orange-h:#c44820; --soft-orange:#fdeae1;
+  --char:#202526; --cream:#f9f1de; --body:#fffbf2; --light:#fffdf9;
+  --gold:#ddb458; --green-text:#4a5a53; --muted:#6b7270; --faint:#9ca29f;
+  --line:#e8e6e1; --track:#ece7dc;
+  --ok:#2e7d4f; --warn:#b6760f; --risk:#b54320; --setup:#7b8a85;
+  --ease:cubic-bezier(.25,.46,.45,.94);
+  --sh-sm:0 3px 0 0 var(--char); --sh:0 5px 0 0 var(--char); --sh-lg:0 8px 0 0 var(--char);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--body)}
+body{font-family:"OpenSansVar","Open Sans",system-ui,sans-serif;color:var(--char);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.55}
+button{font-family:inherit;color:inherit}
+input,textarea{font-family:inherit;color:inherit}
+input:focus,textarea:focus{outline:none}
+a{color:var(--orange);text-decoration:none}
+a:hover{color:var(--orange-h)}
+.cond{font-family:"OSCondensed",sans-serif;font-weight:800;letter-spacing:.3px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.6px}
+.volt{font-family:"Voltage",cursive;font-weight:400;letter-spacing:0;text-transform:none;color:var(--orange)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+
+/* ── header ─────────────────────────────── */
+header{position:sticky;top:0;z-index:60;background:var(--body);border-bottom:1px solid var(--line)}
+.hbar{max-width:1060px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px}
+.hbar img{height:24px;width:auto}
+.divider{width:1px;height:26px;background:var(--line)}
+.client{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:15px;letter-spacing:1.2px;text-transform:uppercase;line-height:1}
+.client span{display:block;font-family:"JetBrains Mono",monospace;font-weight:400;font-size:10px;letter-spacing:1px;color:var(--faint);margin-top:3px}
+.prog{margin-left:auto;display:flex;align-items:center;gap:12px;min-width:190px}
+.progtrack{flex:1;height:8px;background:var(--track);border-radius:999px;overflow:hidden}
+.progfill{height:100%;background:var(--orange);border-radius:999px;transition:width 300ms var(--ease)}
+.progpct{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:15px;letter-spacing:.3px;line-height:1;width:38px;text-align:right}
+.steps{max-width:1060px;margin:0 auto;padding:0 24px 12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.pill{display:flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;white-space:nowrap;
+  font-family:"OSCondensed",sans-serif;font-weight:800;font-size:12px;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);transition:all 150ms var(--ease)}
+.pill:hover{border-color:var(--char);color:var(--char)}
+.pill b{font-family:"JetBrains Mono",monospace;font-weight:500;font-size:10px;color:var(--faint)}
+.pill.on{background:var(--char);border-color:var(--char);color:var(--cream)}
+.pill.on b{color:var(--gold)}
+.pill.done{border-color:var(--ok);color:var(--ok)}
+.pill.done b{color:var(--ok)}
+
+/* ── generic ────────────────────────────── */
+.eyebrow{display:inline-block;font-family:"OSCondensed",sans-serif;font-weight:800;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;
+  background:rgba(221,180,88,.2);border:2px solid var(--gold);border-radius:999px;padding:5px 15px;margin-bottom:20px}
+h1{margin:0;font-family:"OSCondensed",sans-serif;font-weight:800;font-size:clamp(34px,5.4vw,58px);line-height:.96;letter-spacing:.5px;text-transform:uppercase;text-wrap:balance}
+h1 .volt{font-size:clamp(36px,5.7vw,62px);line-height:.62;display:inline-block;padding-top:8px}
+h2{margin:0;font-family:"OSCondensed",sans-serif;font-weight:800;font-size:clamp(26px,3.6vw,38px);line-height:1;letter-spacing:.5px;text-transform:uppercase}
+.lede{margin:22px 0 0;font-size:17px;line-height:1.55;color:var(--green-text);max-width:610px;text-wrap:pretty}
+.sechead{display:flex;align-items:baseline;gap:14px;margin:0 0 8px}
+.secnum{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:15px;letter-spacing:1.4px;color:var(--orange)}
+.card{background:var(--light);border:1px solid var(--char);border-radius:25px;box-shadow:var(--sh);padding:30px 32px;margin-bottom:29px}
+.mlabel{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:1px;color:var(--faint);text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:"OSCondensed",sans-serif;font-weight:800;font-size:15px;letter-spacing:1.2px;text-transform:uppercase;
+  background:var(--orange);color:#fff;border:1px solid var(--char);border-radius:14px;padding:14px 26px;cursor:pointer;box-shadow:var(--sh-sm);
+  transition:transform 150ms var(--ease),box-shadow 150ms var(--ease),background 150ms var(--ease)}
+.btn:hover{background:var(--orange-h);transform:translateY(2px);box-shadow:0 1px 0 0 var(--char)}
+.btn.ghost{background:var(--light);color:var(--char)}
+.btn.ghost:hover{background:var(--track)}
+.btn.dark{background:var(--char);color:var(--cream)}
+.btn.dark:hover{background:#000}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:var(--sh-sm)}
+.btn.sm{font-size:12px;padding:9px 16px;border-radius:10px;letter-spacing:1px}
+.navrow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:8px 0 100px}
+.navrow .hint{font-size:14px;color:var(--muted);margin-left:4px}
+.section{display:none;padding:44px 0 0}
+.section.on{display:block}
+
+/* ── confirm grid ───────────────────────── */
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:26px 0 22px}
+.count{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:15px;letter-spacing:.3px;padding:9px 16px;border:1px solid var(--char);border-radius:10px;background:var(--light);box-shadow:var(--sh-sm)}
+.count i{font-style:normal;color:var(--orange)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.item{background:var(--light);border:1px solid var(--char);border-radius:14px;box-shadow:var(--sh-sm);padding:14px 16px;transition:opacity 150ms var(--ease),background 150ms var(--ease)}
+.item.off{opacity:.42;background:var(--track)}
+.itop{display:flex;align-items:flex-start;gap:12px}
+.check{flex:none;width:26px;height:26px;margin-top:1px;border:2px solid var(--char);border-radius:8px;background:var(--light);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background 150ms var(--ease)}
+.check.on{background:var(--ok);border-color:var(--ok)}
+.check svg{opacity:0}
+.check.on svg{opacity:1}
+.iname{flex:1;min-width:0}
+.iname .n{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:18px;letter-spacing:.5px;text-transform:uppercase;line-height:1.1;cursor:pointer}
+.iname .m{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:5px}
+.badge{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.8px;text-transform:uppercase;padding:3px 7px;border-radius:6px;border:1px solid}
+.b-page{color:var(--ok);border-color:var(--ok);background:rgba(46,125,79,.08)}
+.b-ver{color:var(--warn);border-color:var(--warn);background:rgba(182,118,15,.09)}
+.b-st{color:var(--muted);border-color:var(--line);background:var(--body)}
+.b-sub{color:var(--muted);border-color:var(--line);background:var(--body)}
+.subs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding-top:11px;border-top:1px solid var(--line)}
+.chip{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:11px;letter-spacing:.9px;text-transform:uppercase;border:1px solid var(--char);border-radius:6px;
+  padding:5px 9px;cursor:pointer;background:var(--char);color:var(--cream);transition:all 150ms var(--ease)}
+.chip.off{background:var(--body);color:var(--faint);border-color:var(--line);text-decoration:line-through}
+.newrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.tin{flex:1;min-width:220px;border:1px solid var(--char);border-radius:14px;background:var(--body);padding:13px 16px;font-size:15px}
+.tin::placeholder{color:var(--faint)}
+.groups{margin-top:6px}
+.gtitle{display:flex;align-items:center;gap:12px;margin:30px 0 14px}
+.gtitle .t{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:16px;letter-spacing:1.4px;text-transform:uppercase}
+.gtitle .r{flex:1;height:1px;background:var(--line)}
+
+/* ── rank list ──────────────────────────── */
+.rank{margin-top:8px;list-style:none;padding:0}
+.row{display:flex;align-items:center;gap:14px;background:var(--light);border:1px solid var(--char);border-radius:14px;box-shadow:var(--sh-sm);
+  padding:12px 14px;margin-bottom:10px;transition:box-shadow 150ms var(--ease),transform 150ms var(--ease)}
+.row.drag{box-shadow:var(--sh-lg);transform:scale(1.015) rotate(-.35deg);pointer-events:none;position:relative;z-index:30;background:var(--soft-orange)}
+.row.hot{background:var(--soft-orange)}
+.grip{flex:none;width:34px;height:38px;border:1px solid var(--char);border-radius:10px;background:var(--body);cursor:grab;display:flex;align-items:center;justify-content:center;padding:0;touch-action:none}
+.grip:active{cursor:grabbing}
+.grip:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.pos{flex:none;width:40px;text-align:center;font-family:"OSCondensed",sans-serif;font-weight:800;font-size:26px;line-height:1;letter-spacing:.3px}
+.rname{flex:1;min-width:0}
+.rname .n{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:19px;letter-spacing:.5px;text-transform:uppercase;line-height:1.1}
+.rname .s{font-size:13px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arrows{flex:none;display:flex;flex-direction:column;gap:3px}
+.arrow{width:30px;height:18px;border:1px solid var(--line);border-radius:5px;background:var(--body);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.arrow:hover{border-color:var(--char);color:var(--char)}
+.arrow:disabled{opacity:.25;cursor:not-allowed}
+.totop{flex:none}
+.tier{display:flex;align-items:center;gap:12px;margin:22px 0 12px}
+.tier:first-child{margin-top:0}
+.tier .lab{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;padding:5px 13px;border-radius:999px;border:1px solid}
+.t1{color:#fff;background:var(--orange);border-color:var(--char)}
+.t2{color:var(--char);background:rgba(221,180,88,.35);border-color:var(--gold)}
+.t3{color:var(--muted);background:var(--body);border-color:var(--line)}
+.tier .r{flex:1;height:1px;background:var(--line)}
+.tier .c{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:1px;color:var(--faint);text-transform:uppercase}
+
+/* ── notes / summary ────────────────────── */
+.notebtn{margin-top:11px;background:transparent;border:none;padding:0;cursor:pointer;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--faint);display:inline-flex;align-items:center;gap:6px}
+.notebtn:hover{color:var(--orange)}
+.notebtn.has{color:var(--ok)}
+.note[hidden]{display:none}
+.note{width:100%;margin-top:12px;border:1px solid var(--line);border-radius:10px;background:var(--body);padding:10px 13px;font-size:14px;resize:vertical;min-height:42px;line-height:1.5}
+.note:focus{border-color:var(--char)}
+.dark{background:var(--char);color:var(--cream);border-radius:25px;padding:34px 36px;margin-bottom:29px}
+.dark h2,.dark .n{color:var(--cream)}
+.dark .mlabel{color:#8d9490}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;margin-top:8px}
+.kpi .v{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:52px;line-height:1;letter-spacing:.3px}
+.kpi .l{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;margin-top:7px;color:#8d9490}
+.sumcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.olist{list-style:none;padding:0;margin:12px 0 0;counter-reset:o}
+.olist li{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.olist li:last-child{border-bottom:none}
+.olist .k{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:16px;letter-spacing:.3px;width:26px;flex:none;color:var(--orange)}
+.olist .v{font-family:"OSCondensed",sans-serif;font-weight:800;font-size:16px;letter-spacing:.4px;text-transform:uppercase;line-height:1.2}
+.olist .x{margin-left:auto;flex:none}
+.excl{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(140%);background:var(--char);color:var(--cream);border-radius:14px;padding:13px 22px;
+  font-family:"OSCondensed",sans-serif;font-weight:800;font-size:14px;letter-spacing:1.2px;text-transform:uppercase;z-index:200;box-shadow:0 5px 0 0 rgba(0,0,0,.35);
+  transition:transform 300ms var(--ease)}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.sam{width:112px;height:auto;transform-origin:50% 90%;animation:sway 4s ease-in-out infinite}
+@keyframes sway{0%{transform:rotate(-6deg)}50%{transform:rotate(-1deg)}100%{transform:rotate(-6deg)}}
+.hero{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end;padding:8px 0 34px}
+@media (max-width:720px){
+  .hero{grid-template-columns:1fr}.sam{display:none}
+  .card{padding:22px 20px;border-radius:20px}
+  .pos{width:30px;font-size:21px}.arrows{display:none}
+  .prog{min-width:110px}.client span{display:none}
+}
+@media print{
+  header,.steps,.navrow,.tools,.arrows,.grip,.toast{display:none!important}
+  .section{display:none!important}.section.on{display:block!important}
+  body{background:#fff}.card,.dark{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hbar">
+    <img src="assets/logo-horizontal-charcoal.png" alt="Service Scalers">
+    <div class="divider"></div>
+    <div class="client">Benjamin Franklin Plumbing<span>KANSAS CITY · KICKOFF PRIORITIES</span></div>
+    <div class="prog">
+      <div class="progtrack"><div class="progfill" id="pfill" style="width:0%"></div></div>
+      <div class="progpct" id="ppct">0%</div>
+    </div>
+  </div>
+  <div class="steps" id="pills"></div>
+</header>
+
+<main class="wrap">
+
+<!-- ══ STEP 0 ══ -->
+<section class="section on" data-step="0">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Kickoff call · working session</div>
+      <h1>Before we build anything,<br><span class="volt">we agree on the order.</span></h1>
+      <p class="lede">Four screens. First we confirm we have the right list of services and cities — nothing missing, nothing on there that you don't actually sell. Then you put them in order, most important first. Whatever lands in the top five is what we build in month one.</p>
+    </div>
+    <img class="sam" src="assets/mini-sam.svg" alt="">
+  </div>
+
+  <div class="card">
+    <div class="mlabel">What we pulled off your site</div>
+    <div class="kpis" style="margin-top:14px">
+      <div class="kpi"><div class="v" style="color:var(--orange)">20</div><div class="l" style="color:var(--muted)">Services in the menu</div></div>
+      <div class="kpi"><div class="v" style="color:var(--orange)">45</div><div class="l" style="color:var(--muted)">Incl. sub-services</div></div>
+      <div class="kpi"><div class="v" style="color:var(--orange)">34</div><div class="l" style="color:var(--muted)">Cities listed</div></div>
+      <div class="kpi"><div class="v" style="color:var(--ok)">3</div><div class="l" style="color:var(--muted)">Cities with a real page</div></div>
+    </div>
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:15px;color:var(--green-text)">
+      31 of your 34 cities are listed in the footer with no page behind them. That's the gap we're ordering today —
+      <strong style="color:var(--char)">which city gets a real page first, and which service it leads with.</strong>
+    </div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn" data-go="1">Start with services
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+    <span class="hint">Nothing is saved to a server — your order lives in this browser and in the share link.</span>
+  </div>
+</section>
+
+<!-- ══ STEP 1 — confirm services ══ -->
+<section class="section" data-step="1">
+  <div class="sechead"><div class="secnum">01</div><h2>Is this everything you sell?</h2></div>
+  <p class="lede">Uncheck anything you don't actually do, or don't want leads for. Toggle the sub-services underneath if only part of a category applies. Add whatever we missed at the bottom.</p>
+
+  <div class="tools">
+    <div class="count"><i id="c-sv">20</i> of 20 services on</div>
+    <button class="btn ghost sm" data-all="sv,1">Select all</button>
+    <button class="btn ghost sm" data-all="sv,0">Clear all</button>
+  </div>
+
+  <div class="grid" id="g-sv"></div>
+
+  <div class="card" style="margin-top:22px">
+    <div class="cond" style="font-size:18px;text-transform:uppercase">Something we missed?</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px">Water softeners, backflow testing, well pumps, slab leaks — anything that isn't on the site yet but you want leads for.</div>
+    <div class="newrow">
+      <input class="tin" id="new-sv" placeholder="Add a service and hit Enter…">
+      <button class="btn" data-add="sv">Add service</button>
+    </div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn ghost" data-go="0">Back</button>
+    <button class="btn" data-go="2">Now rank them
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+
+<!-- ══ STEP 2 — rank services ══ -->
+<section class="section" data-step="2">
+  <div class="sechead"><div class="secnum">02</div><h2>Put the money-makers on top</h2></div>
+  <p class="lede">Drag the handle to move a service. Ask yourself which job you'd take if the phone only rang once today — that one goes to #1. Ties are fine; get the top five roughly right and we're good.</p>
+
+  <div class="tools">
+    <div class="count"><i id="c-svr">20</i> ranked</div>
+    <button class="btn ghost sm" data-reset="sv">Reset to site order</button>
+    <span class="hint" style="margin-left:0">Tip: click a handle and use ↑ / ↓ if dragging is fiddly on a shared screen.</span>
+  </div>
+
+  <div id="r-sv"></div>
+
+  <div class="navrow">
+    <button class="btn ghost" data-go="1">Back</button>
+    <button class="btn" data-go="3">On to cities
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+
+<!-- ══ STEP 3 — confirm locations ══ -->
+<section class="section" data-step="3">
+  <div class="sechead"><div class="secnum">03</div><h2>Do you really run trucks there?</h2></div>
+  <p class="lede">A city page only pays off if you'll actually take the call. Uncheck anywhere you're listed but won't drive. The gold flags are ones we need you to settle before we write anything.</p>
+
+  <div class="tools">
+    <div class="count"><i id="c-lo">34</i> of 34 cities on</div>
+    <button class="btn ghost sm" data-all="lo,1">Select all</button>
+    <button class="btn ghost sm" data-all="lo,0">Clear all</button>
+    <button class="btn ghost sm" data-only="MO">Missouri only</button>
+    <button class="btn ghost sm" data-only="KS">Kansas only</button>
+  </div>
+
+  <div class="groups" id="g-lo"></div>
+
+  <div class="card" style="margin-top:22px">
+    <div class="cond" style="font-size:18px;text-transform:uppercase">City missing from the list?</div>
+    <div style="font-size:14px;color:var(--muted);margin-top:4px">Somewhere you already work that never made it onto the site.</div>
+    <div class="newrow">
+      <input class="tin" id="new-lo" placeholder="Add a city and hit Enter…">
+      <button class="btn" data-add="lo">Add city</button>
+    </div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn ghost" data-go="2">Back</button>
+    <button class="btn" data-go="4">Now rank the cities
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+
+<!-- ══ STEP 4 — rank locations ══ -->
+<section class="section" data-step="4">
+  <div class="sechead"><div class="secnum">04</div><h2>Which city gets a page first?</h2></div>
+  <p class="lede">Rank by where the good work is — ticket size, drive time, techs you already have covering it. Not by population. Top five get built first.</p>
+
+  <div class="tools">
+    <div class="count"><i id="c-lor">34</i> ranked</div>
+    <button class="btn ghost sm" data-reset="lo">Reset to A–Z</button>
+    <span class="hint" style="margin-left:0">Cities that already have a page are marked — those are rewrites, not builds.</span>
+  </div>
+
+  <div id="r-lo"></div>
+
+  <div class="navrow">
+    <button class="btn ghost" data-go="3">Back</button>
+    <button class="btn" data-go="5">See the readout
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+
+<!-- ══ STEP 5 — summary ══ -->
+<section class="section" data-step="5">
+  <div class="sechead"><div class="secnum">05</div><h2>Here's what we agreed</h2></div>
+  <p class="lede">This is the build order. Copy it into the notes, or send yourself the link and it comes back exactly like this.</p>
+
+  <div class="dark" style="margin-top:26px">
+    <div class="mlabel">Month one</div>
+    <h2 style="margin-top:8px">First <span class="volt" style="font-size:44px;line-height:.7;display:inline-block">five and five</span></h2>
+    <div class="sumcols" style="margin-top:26px">
+      <div>
+        <div class="mlabel">Lead services</div>
+        <ol class="olist" id="s-sv5" style="color:var(--cream)"></ol>
+      </div>
+      <div>
+        <div class="mlabel">Lead cities</div>
+        <ol class="olist" id="s-lo5" style="color:var(--cream)"></ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="sumcols">
+    <div class="card">
+      <div class="mlabel">Full service order</div>
+      <ol class="olist" id="s-sv"></ol>
+      <div id="s-svx"></div>
+    </div>
+    <div class="card">
+      <div class="mlabel">Full city order</div>
+      <ol class="olist" id="s-lo"></ol>
+      <div id="s-lox"></div>
+    </div>
+  </div>
+
+  <div class="card" id="s-notes-wrap">
+    <div class="mlabel">Open questions &amp; notes</div>
+    <div id="s-notes" style="margin-top:12px"></div>
+  </div>
+
+  <div class="navrow">
+    <button class="btn" id="copylink">Copy share link
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7L12 19"/></svg></button>
+    <button class="btn dark" id="copytext">Copy as text</button>
+    <button class="btn ghost" id="dlcsv">Download CSV</button>
+    <button class="btn ghost" onclick="window.print()">Print</button>
+    <button class="btn ghost" data-go="4">Back</button>
+  </div>
+</section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ────────── data ────────── */
+var SV = [
+  ["bathtub","Bathtubs",[]],
+  ["commercial","Commercial Plumbing Services",[]],
+  ["drains","Drains",["Drain Cleaning","Drain Installation","Hydrojetting","Clogged Drains"]],
+  ["emergency","Emergency Plumbing Services",[]],
+  ["faucets","Faucets",[]],
+  ["disposals","Garbage Disposals",["Garbage Disposal Installation","Garbage Disposal Repair"]],
+  ["gaslines","Gas Lines",[]],
+  ["leaks","Leak Detection",["Leak Repair"]],
+  ["piping","Piping & Repiping",["Frozen Pipes","Leaking Pipes","Pipe Repair"]],
+  ["repairs","Plumbing Repairs",["Plumbing Installation","Plumbing Inspection & Diagnosis"]],
+  ["pumps","Pumps",["Sump Pumps"]],
+  ["sewers","Sewers",["Sewer Line Repair","Sewer Line Replacement and Installation","Trenchless Sewers"]],
+  ["showers","Showers",["Shower Installation","Shower Repair"]],
+  ["sinks","Sinks",["Sink Installation","Sink Repair"]],
+  ["toilets","Toilets",["Toilet Repair","Toilet Installation"]],
+  ["waterlines","Water Lines",[]],
+  ["heaters","Water Heaters",["Tankless Water Heaters","Water Heater Installation","Water Heater Repair"]],
+  ["treatment","Water Treatment",[]],
+  ["residential","Residential Plumbing",[]],
+  ["bathroom","Bathroom Plumbing",[]]
+];
+
+/* [id, name, state, hasPage, verifyNote] */
+var LO = [
+  ["belton","Belton","MO",0,""],
+  ["bluesprings","Blue Springs","MO",1,""],
+  ["buckner","Buckner","MO",0,""],
+  ["desoto","De Soto","KS",0,""],
+  ["edwardsville","Edwardsville","KS",0,""],
+  ["excelsior","Excelsior Springs","MO",0,""],
+  ["fairway","Fairway","KS",0,""],
+  ["gladstone","Gladstone","MO",0,""],
+  ["grandview","Grandview","MO",0,""],
+  ["greenwood","Greenwood","MO",0,""],
+  ["harrisonville","Harrisonville","MO",0,""],
+  ["independence","Independence","MO",0,""],
+  ["kansascity","Kansas City","MO",1,""],
+  ["leawood","Leawood","KS",0,""],
+  ["leessummit","Lees Summit","MO",0,"Spelled Lee's Summit locally — confirm which we use"],
+  ["lenexa","Lenexa","KS",0,""],
+  ["merriam","Merriam","KS",0,""],
+  ["mission","Mission","KS",0,""],
+  ["missionhills","Mission Hills","KS",0,""],
+  ["northkc","North Kansas City","MO",0,"Its own city, separate from KCMO — confirm you cover both"],
+  ["olathe","Olathe","KS",0,""],
+  ["overlandpark","Overland Park","KS",0,""],
+  ["pleasanthill","Pleasant Hill","MO",0,""],
+  ["prairievillage","Prairie Village","KS",0,""],
+  ["raymore","Raymore","MO",0,""],
+  ["raytown","Raytown","MO",0,""],
+  ["riverside","Riverside","MO",1,""],
+  ["roelandpark","Roland Park","KS",0,"Likely means Roeland Park, KS — confirm spelling"],
+  ["shawnee","Shawnee","KS",0,""],
+  ["shawneemission","Shawnee Mission","KS",0,"Postal area, not a city — may cannibalise Shawnee/Overland Park"],
+  ["springhill","Spring Hill","KS",0,""],
+  ["stanley","Stanley","KS",0,"Unincorporated, inside Overland Park — confirm it earns its own page"],
+  ["westwood","Westwood","KS",0,""],
+  ["westwoodhills","Westwood Hills","KS",0,""]
+];
+
+var STEPS = ["Intro","Services","Rank services","Cities","Rank cities","Readout"];
+var KEY = "bfp-kickoff-v1";
+
+/* ────────── state ────────── */
+var S = null;
+function fresh(){
+  return {
+    step:0,
+    sv:SV.map(function(r){ return {id:r[0],name:r[1],on:1,subs:r[2].map(function(n){return {name:n,on:1};}),note:"",custom:0}; }),
+    lo:LO.map(function(r){ return {id:r[0],name:r[1],st:r[2],page:r[3],ver:r[4],on:1,note:"",custom:0}; }),
+    svOrder:SV.map(function(r){return r[0];}),
+    loOrder:LO.map(function(r){return r[0];})
+  };
+}
+function get(k,id){ var a=S[k]; for(var i=0;i<a.length;i++) if(a[i].id===id) return a[i]; return null; }
+function ordered(k){
+  var out=[], seen={}, ord=S[k+"Order"], i;
+  for(i=0;i<ord.length;i++){ var it=get(k,ord[i]); if(it&&!seen[it.id]){seen[it.id]=1;out.push(it);} }
+  for(i=0;i<S[k].length;i++) if(!seen[S[k][i].id]) out.push(S[k][i]);
+  return out;
+}
+function onList(k){ return ordered(k).filter(function(x){return x.on;}); }
+
+/* ────────── persistence ────────── */
+function b64e(s){ return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function b64d(s){ s=s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length%4)s+="="; return decodeURIComponent(escape(atob(s))); }
+
+function pack(){
+  return {
+    v:1, st:S.step,
+    so:S.svOrder, lo:S.loOrder,
+    sx:S.sv.filter(function(x){return !x.on;}).map(function(x){return x.id;}),
+    lx:S.lo.filter(function(x){return !x.on;}).map(function(x){return x.id;}),
+    sb:S.sv.reduce(function(a,x){ var off=x.subs.filter(function(s){return !s.on;}).map(function(s){return s.name;}); if(off.length)a[x.id]=off; return a; },{}),
+    nt:[].concat(S.sv,S.lo).reduce(function(a,x){ if(x.note)a[x.id]=x.note; return a; },{}),
+    cs:S.sv.filter(function(x){return x.custom;}).map(function(x){return [x.id,x.name];}),
+    cl:S.lo.filter(function(x){return x.custom;}).map(function(x){return [x.id,x.name,x.st];})
+  };
+}
+function unpack(p){
+  if(!p||p.v!==1) return;
+  var i;
+  (p.cs||[]).forEach(function(c){ if(!get("sv",c[0])) S.sv.push({id:c[0],name:c[1],on:1,subs:[],note:"",custom:1}); });
+  (p.cl||[]).forEach(function(c){ if(!get("lo",c[0])) S.lo.push({id:c[0],name:c[1],st:c[2]||"",page:0,ver:"",on:1,note:"",custom:1}); });
+  (p.sx||[]).forEach(function(id){ var it=get("sv",id); if(it)it.on=0; });
+  (p.lx||[]).forEach(function(id){ var it=get("lo",id); if(it)it.on=0; });
+  for(var id in (p.sb||{})){ var it=get("sv",id); if(it) it.subs.forEach(function(s){ if(p.sb[id].indexOf(s.name)>-1) s.on=0; }); }
+  for(var id2 in (p.nt||{})){ var it2=get("sv",id2)||get("lo",id2); if(it2) it2.note=p.nt[id2]; }
+  if(p.so&&p.so.length) S.svOrder=p.so;
+  if(p.lo&&p.lo.length) S.loOrder=p.lo;
+  if(typeof p.st==="number") S.step=p.st;
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(pack())); }catch(e){} }
+function load(){
+  S = fresh();
+  var h = location.hash.replace(/^#s=/,"");
+  if(h && h!==location.hash){
+    try{ unpack(JSON.parse(b64d(h))); return; }catch(e){}
+  }
+  try{ var raw=localStorage.getItem(KEY); if(raw) unpack(JSON.parse(raw)); }catch(e){}
+}
+
+/* ────────── ui helpers ────────── */
+function $(s,r){ return (r||document).querySelector(s); }
+function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+var TT=null;
+function toast(msg){
+  var t=$("#toast"); t.textContent=msg; t.classList.add("on");
+  clearTimeout(TT); TT=setTimeout(function(){ t.classList.remove("on"); },2200);
+}
+var CHECK='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fffbf2" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+var GRIP='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>';
+var UP='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg>';
+var DOWN='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+
+/* ────────── steps ────────── */
+function goto(n){
+  S.step = Math.max(0, Math.min(STEPS.length-1, n));
+  $$(".section").forEach(function(el){ el.classList.toggle("on", +el.dataset.step===S.step); });
+  render(); save();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function pills(){
+  var h="";
+  for(var i=0;i<STEPS.length;i++){
+    var cls = i===S.step ? "pill on" : (i<S.step ? "pill done" : "pill");
+    h += '<button class="'+cls+'" data-go="'+i+'"><b>'+(i<10?"0":"")+i+'</b>'+esc(STEPS[i])+'</button>';
+  }
+  $("#pills").innerHTML=h;
+  var pct = Math.round(S.step/(STEPS.length-1)*100);
+  $("#pfill").style.width=pct+"%"; $("#ppct").textContent=pct+"%";
+}
+
+/* ────────── confirm cards ────────── */
+var OPEN={};
+function noteBlock(k,it,ph){
+  var key=k+"|"+it.id, has=!!it.note, open=has||OPEN[key];
+  return '<button class="notebtn'+(has?" has":"")+'" data-noteopen="'+esc(key)+'">'+
+      (has?'&#9679; Note added':'+ Add note')+
+    '</button>'+
+    '<textarea class="note" data-note="'+esc(key)+'" placeholder="'+esc(ph)+'"'+(open?"":" hidden")+'>'+esc(it.note)+'</textarea>';
+}
+function svCard(it){
+  var subs="";
+  if(it.subs.length){
+    subs='<div class="subs">'+it.subs.map(function(s,i){
+      return '<button class="chip'+(s.on?"":" off")+'" data-sub="'+esc(it.id)+'|'+i+'">'+esc(s.name)+'</button>';
+    }).join("")+'</div>';
+  }
+  return '<div class="item'+(it.on?"":" off")+'" data-item="sv|'+esc(it.id)+'">'+
+    '<div class="itop">'+
+      '<button class="check'+(it.on?" on":"")+'" data-tog="sv|'+esc(it.id)+'" aria-label="Toggle '+esc(it.name)+'">'+CHECK+'</button>'+
+      '<div class="iname"><div class="n" data-tog="sv|'+esc(it.id)+'">'+esc(it.name)+'</div>'+
+        '<div class="m">'+
+          (it.custom?'<span class="badge b-ver">Added on call</span>':"")+
+          (it.subs.length?'<span class="badge b-sub">'+it.subs.filter(function(s){return s.on;}).length+' / '+it.subs.length+' sub-services</span>':'<span class="badge b-st">No sub-pages</span>')+
+        '</div>'+
+      '</div>'+
+    '</div>'+subs+
+    noteBlock("sv",it,"Note \u2014 avg ticket, who does it, anything to flag\u2026")+
+  '</div>';
+}
+function loCard(it){
+  var badges='';
+  if(it.page) badges+='<span class="badge b-page">Has a page</span>';
+  if(it.ver) badges+='<span class="badge b-ver" title="'+esc(it.ver)+'">Verify</span>';
+  if(it.custom) badges+='<span class="badge b-ver">Added on call</span>';
+  if(it.st) badges+='<span class="badge b-st">'+esc(it.st)+'</span>';
+  return '<div class="item'+(it.on?"":" off")+'" data-item="lo|'+esc(it.id)+'">'+
+    '<div class="itop">'+
+      '<button class="check'+(it.on?" on":"")+'" data-tog="lo|'+esc(it.id)+'" aria-label="Toggle '+esc(it.name)+'">'+CHECK+'</button>'+
+      '<div class="iname"><div class="n" data-tog="lo|'+esc(it.id)+'">'+esc(it.name)+'</div>'+
+        '<div class="m">'+badges+'</div>'+
+        (it.ver?'<div style="font-size:13px;color:var(--warn);margin-top:7px;line-height:1.45">'+esc(it.ver)+'</div>':"")+
+      '</div>'+
+    '</div>'+
+    noteBlock("lo",it,"Note \u2014 drive time, ticket size, techs covering it\u2026")+
+  '</div>';
+}
+function renderConfirm(){
+  $("#g-sv").innerHTML = ordered("sv").map(svCard).join("");
+  var mo = ordered("lo").filter(function(x){return x.st==="MO";});
+  var ks = ordered("lo").filter(function(x){return x.st==="KS";});
+  var other = ordered("lo").filter(function(x){return x.st!=="MO"&&x.st!=="KS";});
+  function grp(title,arr){
+    if(!arr.length) return "";
+    var on=arr.filter(function(x){return x.on;}).length;
+    return '<div class="gtitle"><span class="t">'+esc(title)+'</span><span class="r"></span><span class="mono" style="font-size:10px;color:var(--faint)">'+on+' / '+arr.length+' ON</span></div>'+
+      '<div class="grid">'+arr.map(loCard).join("")+'</div>';
+  }
+  $("#g-lo").innerHTML = grp("Missouri",mo)+grp("Kansas",ks)+grp("Other",other);
+  $("#c-sv").parentNode.innerHTML = '<i id="c-sv">'+S.sv.filter(function(x){return x.on;}).length+'</i> of '+S.sv.length+' services on';
+  $("#c-lo").parentNode.innerHTML = '<i id="c-lo">'+S.lo.filter(function(x){return x.on;}).length+'</i> of '+S.lo.length+' cities on';
+}
+
+/* ────────── rank lists ────────── */
+function tierHead(lab,cls,note){
+  return '<div class="tier"><span class="lab '+cls+'">'+lab+'</span><span class="r"></span><span class="c">'+note+'</span></div>';
+}
+function rankRow(k,it,i,n){
+  var sub="";
+  if(k==="sv"){
+    var on=it.subs.filter(function(s){return s.on;});
+    sub = on.length ? on.map(function(s){return s.name;}).join(" · ") : (it.custom?"Added on this call":"Single page");
+  } else {
+    sub = (it.st||"") + (it.page?" · already has a page":" · needs a page") + (it.ver?" · verify":"");
+  }
+  return '<div class="row" data-row="'+k+'|'+esc(it.id)+'">'+
+    '<button class="grip" data-grip="'+k+'|'+esc(it.id)+'" tabindex="0" aria-label="Reorder '+esc(it.name)+'">'+GRIP+'</button>'+
+    '<div class="pos" style="color:'+(i<5?"var(--orange)":(i<10?"var(--char)":"var(--faint)"))+'">'+(i+1)+'</div>'+
+    '<div class="rname"><div class="n">'+esc(it.name)+'</div><div class="s">'+esc(sub)+'</div></div>'+
+    '<div class="arrows">'+
+      '<button class="arrow" data-mv="'+k+'|'+esc(it.id)+'|-1"'+(i===0?" disabled":"")+' aria-label="Move up">'+UP+'</button>'+
+      '<button class="arrow" data-mv="'+k+'|'+esc(it.id)+'|1"'+(i===n-1?" disabled":"")+' aria-label="Move down">'+DOWN+'</button>'+
+    '</div>'+
+    '<button class="btn ghost sm totop" data-top="'+k+'|'+esc(it.id)+'">Top</button>'+
+  '</div>';
+}
+function renderRank(k){
+  var list = onList(k), h="", n=list.length;
+  var t1 = k==="sv" ? "Build first" : "Page one";
+  for(var i=0;i<n;i++){
+    if(i===0) h+=tierHead("Tier 1 · "+t1,"t1","Positions 1–5");
+    if(i===5) h+=tierHead("Tier 2 · Next up","t2","Positions 6–10");
+    if(i===10) h+=tierHead("Tier 3 · Later","t3","Everything else");
+    h+=rankRow(k,list[i],i,n);
+  }
+  if(!n) h='<div class="card" style="text-align:center;color:var(--muted)">Nothing turned on yet — go back a step and check a few boxes.</div>';
+  $("#r-"+k).innerHTML=h;
+  $("#c-"+k+"r").textContent=n;
+}
+
+/* ────────── summary ────────── */
+function subLine(it){
+  var on=it.subs.filter(function(s){return s.on;});
+  var off=it.subs.filter(function(s){return !s.on;});
+  if(!it.subs.length) return "";
+  return on.length+"/"+it.subs.length+" subs"+(off.length?" — dropped: "+off.map(function(s){return s.name;}).join(", "):"");
+}
+function renderSummary(){
+  var sv=onList("sv"), lo=onList("lo");
+  function ol(arr,limit,k){
+    return arr.slice(0,limit||arr.length).map(function(it,i){
+      var right = k==="lo" ? (it.page?'<span class="badge b-page x">Has page</span>':'<span class="badge b-st x">New page</span>')
+                           : (it.subs.length?'<span class="badge b-sub x">'+it.subs.filter(function(s){return s.on;}).length+' subs</span>':"");
+      return '<li><span class="k">'+(i+1)+'</span><span class="v">'+esc(it.name)+'</span>'+right+'</li>';
+    }).join("");
+  }
+  $("#s-sv5").innerHTML = ol(sv,5,"sv") || '<li><span class="v">Nothing selected</span></li>';
+  $("#s-lo5").innerHTML = ol(lo,5,"lo") || '<li><span class="v">Nothing selected</span></li>';
+  $("#s-sv").innerHTML = ol(sv,0,"sv");
+  $("#s-lo").innerHTML = ol(lo,0,"lo");
+
+  function excl(k,label){
+    var off=ordered(k).filter(function(x){return !x.on;});
+    if(!off.length) return '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--ok)">Nothing dropped — the full list is in.</div>';
+    return '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)"><div class="mlabel">Dropped ('+off.length+')</div><div class="excl">'+
+      off.map(function(x){return '<span class="chip off" style="cursor:default">'+esc(x.name)+'</span>';}).join("")+'</div></div>';
+  }
+  $("#s-svx").innerHTML = excl("sv");
+  $("#s-lox").innerHTML = excl("lo");
+
+  var rows=[];
+  ordered("sv").forEach(function(x){
+    var d=[];
+    if(x.note) d.push(x.note);
+    var s=subLine(x); if(s && s.indexOf("dropped")>-1) d.push(s);
+    if(d.length) rows.push([x.name,"Service",d.join(" · ")]);
+  });
+  ordered("lo").forEach(function(x){
+    var d=[];
+    if(x.ver && x.on) d.push(x.ver);
+    if(x.note) d.push(x.note);
+    if(d.length) rows.push([x.name,"City",d.join(" · ")]);
+  });
+  $("#s-notes").innerHTML = rows.length
+    ? rows.map(function(r){
+        return '<div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);align-items:baseline;flex-wrap:wrap">'+
+          '<span class="cond" style="font-size:15px;text-transform:uppercase;min-width:170px">'+esc(r[0])+'</span>'+
+          '<span class="badge b-st">'+r[1]+'</span>'+
+          '<span style="flex:1;min-width:200px;font-size:14px;color:var(--green-text)">'+esc(r[2])+'</span></div>';
+      }).join("")
+    : '<div style="font-size:15px;color:var(--muted);margin-top:6px">No notes or open questions. Clean sheet.</div>';
+}
+
+function render(){
+  pills();
+  if(S.step===1||S.step===3) renderConfirm();
+  if(S.step===2) renderRank("sv");
+  if(S.step===4) renderRank("lo");
+  if(S.step===5) renderSummary();
+}
+
+/* ────────── reorder ────────── */
+function move(k,id,delta){
+  var list=onList(k), ids=list.map(function(x){return x.id;});
+  var i=ids.indexOf(id), j=i+delta;
+  if(i<0||j<0||j>=ids.length) return;
+  ids.splice(j,0,ids.splice(i,1)[0]);
+  applyOrder(k,ids); renderRank(k); save();
+}
+function toTop(k,id){
+  var ids=onList(k).map(function(x){return x.id;});
+  var i=ids.indexOf(id); if(i<1) return;
+  ids.unshift(ids.splice(i,1)[0]);
+  applyOrder(k,ids); renderRank(k); save();
+}
+/* rewrite the master order so the ON items follow `ids`, OFF items keep their slots */
+function applyOrder(k,ids){
+  var full=ordered(k), out=[], q=ids.slice();
+  for(var i=0;i<full.length;i++){
+    if(full[i].on) out.push(q.shift());
+    else out.push(full[i].id);
+  }
+  while(q.length) out.push(q.shift());
+  S[k+"Order"]=out;
+}
+
+var D=null;
+function startDrag(k,id,ev){
+  var row=$('[data-row="'+k+'|'+id+'"]'); if(!row) return;
+  D={k:k,id:id,row:row};
+  row.classList.add("drag");
+  document.body.style.userSelect="none";
+  document.addEventListener("pointermove",onMove);
+  document.addEventListener("pointerup",endDrag);
+  document.addEventListener("pointercancel",endDrag);
+  ev.preventDefault();
+}
+function onMove(ev){
+  if(!D) return;
+  var y=ev.clientY;
+  if(y<90) window.scrollBy(0,-14);
+  else if(y>window.innerHeight-70) window.scrollBy(0,14);
+  var el=document.elementFromPoint(ev.clientX,y);
+  var tgt=el&&el.closest?el.closest("[data-row]"):null;
+  if(!tgt) return;
+  var parts=tgt.dataset.row.split("|");
+  if(parts[0]!==D.k||parts[1]===D.id) return;
+  var ids=onList(D.k).map(function(x){return x.id;});
+  var from=ids.indexOf(D.id), to=ids.indexOf(parts[1]);
+  if(from<0||to<0) return;
+  ids.splice(to,0,ids.splice(from,1)[0]);
+  applyOrder(D.k,ids);
+  renderRank(D.k);
+  D.row=$('[data-row="'+D.k+'|'+D.id+'"]');
+  if(D.row) D.row.classList.add("drag");
+}
+function endDrag(){
+  if(!D) return;
+  if(D.row){ D.row.classList.remove("drag"); D.row.classList.add("hot"); var r=D.row; setTimeout(function(){ r.classList.remove("hot"); },600); }
+  D=null;
+  document.body.style.userSelect="";
+  document.removeEventListener("pointermove",onMove);
+  document.removeEventListener("pointerup",endDrag);
+  document.removeEventListener("pointercancel",endDrag);
+  save();
+}
+
+/* ────────── export ────────── */
+function shareUrl(){
+  return location.origin+location.pathname+"#s="+b64e(JSON.stringify(pack()));
+}
+function asText(){
+  var L=[], sv=onList("sv"), lo=onList("lo");
+  L.push("BENJAMIN FRANKLIN PLUMBING — KANSAS CITY");
+  L.push("Kickoff priorities · "+new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}));
+  L.push("");
+  L.push("SERVICES IN PRIORITY ORDER ("+sv.length+" of "+S.sv.length+")");
+  sv.forEach(function(x,i){
+    var s=subLine(x);
+    L.push((i+1)+". "+x.name+(s?"  ["+s+"]":"")+(x.note?"  — "+x.note:""));
+  });
+  var svOff=S.sv.filter(function(x){return !x.on;});
+  if(svOff.length) L.push("Dropped: "+svOff.map(function(x){return x.name;}).join(", "));
+  L.push("");
+  L.push("CITIES IN PRIORITY ORDER ("+lo.length+" of "+S.lo.length+")");
+  lo.forEach(function(x,i){
+    L.push((i+1)+". "+x.name+(x.st?", "+x.st:"")+(x.page?"  [has page]":"  [needs page]")+(x.ver?"  (verify: "+x.ver+")":"")+(x.note?"  — "+x.note:""));
+  });
+  var loOff=S.lo.filter(function(x){return !x.on;});
+  if(loOff.length) L.push("Dropped: "+loOff.map(function(x){return x.name;}).join(", "));
+  L.push("");
+  L.push("MONTH ONE: "+sv.slice(0,5).map(function(x){return x.name;}).join(" / "));
+  L.push("FIRST PAGES: "+lo.slice(0,5).map(function(x){return x.name;}).join(" / "));
+  return L.join("\n");
+}
+function asCsv(){
+  var q=function(v){ return '"'+String(v==null?"":v).replace(/"/g,'""')+'"'; };
+  var rows=[["type","rank","name","state","included","tier","has_page","sub_services_on","sub_services_dropped","verify","note"]];
+  var sv=onList("sv");
+  sv.forEach(function(x,i){
+    rows.push(["service",i+1,x.name,"","yes",i<5?"1":(i<10?"2":"3"),"",
+      x.subs.filter(function(s){return s.on;}).map(function(s){return s.name;}).join("; "),
+      x.subs.filter(function(s){return !s.on;}).map(function(s){return s.name;}).join("; "),"",x.note]);
+  });
+  S.sv.filter(function(x){return !x.on;}).forEach(function(x){
+    rows.push(["service","",x.name,"","no","","","","","",x.note]);
+  });
+  var lo=onList("lo");
+  lo.forEach(function(x,i){
+    rows.push(["city",i+1,x.name,x.st,"yes",i<5?"1":(i<10?"2":"3"),x.page?"yes":"no","","",x.ver,x.note]);
+  });
+  S.lo.filter(function(x){return !x.on;}).forEach(function(x){
+    rows.push(["city","",x.name,x.st,"no","",x.page?"yes":"no","","",x.ver,x.note]);
+  });
+  return rows.map(function(r){return r.map(q).join(",");}).join("\r\n");
+}
+function copy(text,msg){
+  var done=function(){ toast(msg); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done,fallback);
+  } else fallback();
+  function fallback(){
+    var ta=document.createElement("textarea");
+    ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ toast("Copy failed — select it manually"); }
+    document.body.removeChild(ta);
+  }
+}
+
+/* ────────── events ────────── */
+document.addEventListener("click",function(e){
+  var t=e.target.closest?e.target:null; if(!t) return;
+  var el;
+
+  if((el=t.closest("[data-go]"))){ goto(+el.dataset.go); return; }
+
+  if((el=t.closest("[data-tog]"))){
+    var p=el.dataset.tog.split("|"), it=get(p[0],p[1]);
+    if(it){ it.on=it.on?0:1; renderConfirm(); save(); }
+    return;
+  }
+  if((el=t.closest("[data-sub]"))){
+    var q=el.dataset.sub.split("|"), s=get("sv",q[0]);
+    if(s&&s.subs[+q[1]]){ var sub=s.subs[+q[1]]; sub.on=sub.on?0:1; if(sub.on) s.on=1; renderConfirm(); save(); }
+    return;
+  }
+  if((el=t.closest("[data-all]"))){
+    var a=el.dataset.all.split(","), v=+a[1];
+    S[a[0]].forEach(function(x){ x.on=v; });
+    renderConfirm(); save(); toast(v?"All on":"All off"); return;
+  }
+  if((el=t.closest("[data-only]"))){
+    var st=el.dataset.only;
+    S.lo.forEach(function(x){ x.on = x.st===st ? 1 : 0; });
+    renderConfirm(); save(); toast(st==="MO"?"Missouri only":"Kansas only"); return;
+  }
+  if((el=t.closest("[data-noteopen]"))){
+    var nk=el.dataset.noteopen;
+    OPEN[nk]=!OPEN[nk];
+    var ta=$('[data-note="'+nk+'"]');
+    if(ta){ ta.hidden=!OPEN[nk] && !ta.value; if(!ta.hidden) ta.focus(); }
+    return;
+  }
+  if((el=t.closest("[data-add]"))){ addItem(el.dataset.add); return; }
+  if((el=t.closest("[data-mv]"))){ var m=el.dataset.mv.split("|"); move(m[0],m[1],+m[2]); return; }
+  if((el=t.closest("[data-top]"))){ var tp=el.dataset.top.split("|"); toTop(tp[0],tp[1]); return; }
+  if((el=t.closest("[data-reset]"))){
+    var k=el.dataset.reset;
+    S[k+"Order"] = (k==="sv"?SV:LO).map(function(r){return r[0];}).concat(
+      S[k].filter(function(x){return x.custom;}).map(function(x){return x.id;}));
+    renderRank(k); save(); toast("Order reset"); return;
+  }
+});
+
+document.addEventListener("pointerdown",function(e){
+  var g=e.target.closest?e.target.closest("[data-grip]"):null;
+  if(!g) return;
+  var p=g.dataset.grip.split("|");
+  startDrag(p[0],p[1],e);
+});
+
+document.addEventListener("keydown",function(e){
+  var g=document.activeElement&&document.activeElement.closest?document.activeElement.closest("[data-grip]"):null;
+  if(g&&(e.key==="ArrowUp"||e.key==="ArrowDown")){
+    e.preventDefault();
+    var p=g.dataset.grip.split("|");
+    move(p[0],p[1],e.key==="ArrowUp"?-1:1);
+    var again=$('[data-grip="'+p[0]+"|"+p[1]+'"]');
+    if(again) again.focus();
+    return;
+  }
+  if(e.key==="Enter"&&e.target&&e.target.id==="new-sv"){ e.preventDefault(); addItem("sv"); }
+  if(e.key==="Enter"&&e.target&&e.target.id==="new-lo"){ e.preventDefault(); addItem("lo"); }
+});
+
+document.addEventListener("input",function(e){
+  var n=e.target.closest?e.target.closest("[data-note]"):null;
+  if(!n) return;
+  var p=n.dataset.note.split("|"), it=get(p[0],p[1]);
+  if(it){ it.note=n.value; clearTimeout(it._t); it._t=setTimeout(save,400); }
+});
+
+function addItem(k){
+  var inp=$("#new-"+k), name=(inp.value||"").trim();
+  if(!name){ inp.focus(); return; }
+  var id = k+"-"+name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")+"-"+Math.random().toString(36).slice(2,6);
+  if(k==="sv") S.sv.push({id:id,name:name,on:1,subs:[],note:"",custom:1});
+  else S.lo.push({id:id,name:name,st:"",page:0,ver:"",on:1,note:"",custom:1});
+  S[k+"Order"].push(id);
+  inp.value="";
+  renderConfirm(); save();
+  toast('Added "'+name+'"');
+  var card=$('[data-item="'+k+"|"+id+'"]');
+  if(card) card.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+$("#copylink").addEventListener("click",function(){
+  var u=shareUrl();
+  try{ history.replaceState(null,"","#s="+b64e(JSON.stringify(pack()))); }catch(e){}
+  copy(u,"Link copied");
+});
+$("#copytext").addEventListener("click",function(){ copy(asText(),"Summary copied"); });
+$("#dlcsv").addEventListener("click",function(){
+  var blob=new Blob(["﻿"+asCsv()],{type:"text/csv;charset=utf-8"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="bfp-kc-kickoff-priorities.csv";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(a.href); },1500);
+  toast("CSV downloaded");
+});
+
+/* ────────── boot ────────── */
+load();
+$$(".section").forEach(function(el){ el.classList.toggle("on", +el.dataset.step===S.step); });
+render();
+})();
+</script>
+</body>
+</html>
